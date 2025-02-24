@@ -47,29 +47,25 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import axios from 'axios'
 import { useCartStore } from '../stores/cart'
+import { useProductStore } from '../stores/product'
+import { Product } from '../types'
 
 const route = useRoute()
 const cartStore = useCartStore()
-const product = ref(null)
+const product = ref<Product>()
 const quantity = ref(1)
+const productStore = useProductStore()
+
 
 const fetchProduct = async () => {
   try {
     // Replace with your actual API endpoint
-    const response = await axios.get(`/api/products/${route.params.id}`)
-    product.value = response.data
+    let id = parseInt(route.params.id[0])
+    const data = await productStore.fetchProductById(id)
+    product.value = data as Product
   } catch (error) {
     console.error('Failed to fetch product:', error)
-    // For demo purposes, add dummy data
-    product.value = {
-      id: Number(route.params.id),
-      name: `Product ${route.params.id}`,
-      price: 99.99,
-      description: 'This is a detailed product description. It provides comprehensive information about the product, its features, and benefits.',
-      image: `https://picsum.photos/800/600?random=${route.params.id}`
-    }
   }
 }
 

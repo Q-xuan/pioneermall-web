@@ -41,50 +41,23 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
 import { useCartStore } from '../stores/cart'
+import { useProductStore } from '../stores/product'
+import { Product } from '../types'
+import { log } from 'console'
 
 const cartStore = useCartStore()
-const products = ref([])
+const productStore = useProductStore()
+const products = ref<Product[]>([])
 
 const fetchProducts = async () => {
   try {
     // Replace with your actual API endpoint
-    const response = await axios.get('/api/products')
-    products.value = response.data
+    productStore.fetchProducts();
+    products.value = productStore.products;
   } catch (error) {
-    console.error('Failed to fetch products:', error)
-    // For demo purposes, add some dummy data
-    products.value = [
-      {
-        id: 1,
-        name: 'Product 1',
-        price: 99.99,
-        description: 'This is a sample product description.',
-        image: 'https://picsum.photos/500/300?random=1'
-      },
-      {
-        id: 2,
-        name: 'Product 2',
-        price: 149.99,
-        description: 'Another sample product description.',
-        image: 'https://picsum.photos/500/300?random=2'
-      },
-      {
-        id: 3,
-        name: 'Product 3',
-        price: 199.99,
-        description: 'A third sample product description.',
-        image: 'https://picsum.photos/500/300?random=3'
-      },
-      {
-        id: 4,
-        name: 'Product 4',
-        price: 299.99,
-        description: 'A fourth sample product description.',
-        image: 'https://picsum.photos/500/300?random=4'
-      }
-    ]
+    console.log('Error fetching products:', error);
+    
   }
 }
 

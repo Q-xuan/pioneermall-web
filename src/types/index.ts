@@ -23,3 +23,22 @@ export interface Order {
   status: 'pending' | 'processing' | 'completed' | 'cancelled'
   createdAt: string
 }
+
+export interface User {
+  id: number
+  email: string
+  name: string
+  createdAt: string
+}
+
+export interface ApiPaginationParams {
+  page?: number
+  limit?: number
+}
+
+export interface ApiPaginatedResponse<T> {
+  data: T[]
+  total: number
+  page: number
+  limit: number
+}

@@ -53,10 +53,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useDisplay } from 'vuetify';
+import { useProductStore } from '../stores/product';
+import { Product } from '../types';
 
-const { smAndDown } = useDisplay();
+const productStore = useProductStore();
 
 const slides = ref([
   {
@@ -76,24 +78,21 @@ const slides = ref([
   },
 ]);
 
-const featuredProducts = ref([
-  {
-    id: 1,
-    name: 'Product 1',
-    price: 99.99,
-    image: 'https://picsum.photos/500/300?random=1',
-  },
-  {
-    id: 2,
-    name: 'Product 2',
-    price: 149.99,
-    image: 'https://picsum.photos/500/300?random=2',
-  },
-  {
-    id: 3,
-    name: 'Product 3',
-    price: 199.99,
-    image: 'https://picsum.photos/500/300?random=3',
-  },
-]);
+
+const featuredProducts = ref<Product[]>([])
+
+const fetchProducts = async () => {
+  try {
+    // Replace with your actual API endpoint
+    await productStore.fetchProducts();
+    featuredProducts.value = productStore.products;
+    console.log(featuredProducts.value);
+  } catch (error) {
+    console.log('Error fetching products:', error);
+    
+  }
+}
+onMounted(() => {
+  fetchProducts()
+})
 </script>
