@@ -44,7 +44,6 @@ import { ref, onMounted } from 'vue'
 import { useCartStore } from '../stores/cart'
 import { useProductStore } from '../stores/product'
 import { Product } from '../types'
-import { log } from 'console'
 
 const cartStore = useCartStore()
 const productStore = useProductStore()

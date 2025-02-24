@@ -2,16 +2,16 @@
   <v-container>
     <h1 class="text-h3 mb-6">My Orders</h1>
     
-    <v-row v-if="orders.length">
+    <v-row v-if="orderStore.sortedOrders.length">
       <v-col
-        v-for="order in orders"
+        v-for="order in orderStore.sortedOrders"
         :key="order.id"
         cols="12"
       >
         <v-card>
           <v-card-title class="d-flex justify-space-between">
             <span>Order #{{ order.id }}</span>
-            <span class="text-subtitle-1">{{ formatDate(order.date) }}</span>
+            <span class="text-subtitle-1">{{ formatDate(order.createdAt) }}</span>
           </v-card-title>
           
           <v-card-text>
@@ -69,43 +69,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import { onMounted } from 'vue'
+import { useOrderStore } from '../stores/order'
 
-const orders = ref([])
+const orderStore = useOrderStore()
 
-const fetchOrders = async () => {
-  try {
-    // Replace with your actual API endpoint
-    const response = await axios.get('/api/orders')
-    orders.value = response.data
-  } catch (error) {
-    console.error('Failed to fetch orders:', error)
-    // For demo purposes, add dummy data
-    orders.value = [
-      {
-        id: 1,
-        date: new Date(),
-        items: [
-          {
-            id: 1,
-            name: 'Product 1',
-            price: 99.99,
-            quantity: 2,
-            image: 'https://picsum.photos/500/300?random=1'
-          }
-        ],
-        totalAmount: 199.98
-      }
-    ]
-  }
-}
-
-const formatDate = (date: Date) => {
+const formatDate = (date: string | Date) => {
   return new Date(date).toLocaleDateString()
 }
 
 onMounted(() => {
-  fetchOrders()
+  orderStore.fetchOrders()
 })
 </script>

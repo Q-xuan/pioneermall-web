@@ -89,21 +89,17 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useCartStore } from '../stores/cart'
-import axios from 'axios'
+import { useOrderStore } from '../stores/order'
 
 const router = useRouter()
 const cartStore = useCartStore()
+const orderStore = useOrderStore()
 const loading = ref(false)
 
 const checkout = async () => {
   try {
     loading.value = true
-    // Replace with your actual API endpoint
-    await axios.post('/api/orders', {
-      items: cartStore.items,
-      totalAmount: cartStore.totalAmount
-    })
-    cartStore.clearCart()
+    await orderStore.createOrder()
     router.push('/orders')
   } catch (error) {
     console.error('Checkout failed:', error)
