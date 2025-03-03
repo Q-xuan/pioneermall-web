@@ -76,6 +76,54 @@ export const useProductStore = defineStore("product", {
         this.loading = false;
       }
     },
+    async fetchProductsByCategory(name:string) {
+      this.loading = true;
+      this.error = null;
+      try {
+        const { data } = await productApi.getProductsByCategory(name);
+        return data.products;
+      } catch (error) {
+        console.error("Failed to fetch products:", error);
+        this.error = "Failed to fetch products";
+        // For demo purposes, add dummy data
+        return [
+          {
+            id: 1,
+            name: "Product 1",
+            price: 99.99,
+            description: "This is a sample product description.",
+            image: "https://picsum.photos/500/300?random=1",
+            stock: 10,
+          },
+          {
+            id: 2,
+            name: "Product 2",
+            price: 149.99,
+            description: "Another sample product description.",
+            image: "https://picsum.photos/500/300?random=2",
+            stock: 5,
+          },
+          {
+            id: 3,
+            name: "Product 3",
+            price: 199.99,
+            description: "A third sample product description.",
+            image: "https://picsum.photos/500/300?random=3",
+            stock: 8,
+          },
+          {
+            id: 4,
+            name: "Product 4",
+            price: 299.99,
+            description: "A fourth sample product description.",
+            image: "https://picsum.photos/500/300?random=4",
+            stock: 3,
+          },
+        ];
+      } finally {
+        this.loading = false;
+      }
+    },
 
     async fetchProductById(id: number) {
       try {

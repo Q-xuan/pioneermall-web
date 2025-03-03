@@ -17,10 +17,11 @@ interface Categories{
 }
 
 export const productApi = {
-  getProducts: (page: number = 1, limit: number = 10) => {
-    return api.post<ProductsResponse>('/product/products', {
-        data: { page, limit }
-    })
+  getProducts: (page: number = 1, page_size: number = 10) => {
+    return api.post<ProductsResponse>('/product/products', { page, page_size })
+  },
+  getProductsByCategory: (category_name: string, page: number = 1, page_size: number = 10) => {
+    return api.post<ProductsResponse>('/product/products', { category_name, page, page_size })
   },
 
   getProductById: (id: number) => {
