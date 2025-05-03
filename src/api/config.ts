@@ -8,7 +8,7 @@ interface ApiError {
 
 // 创建axios实例
 const api: AxiosInstance = axios.create({
-  baseURL: 'http://104.198.52.156:30010', // 替换为你的API地址
+  baseURL: 'http://127.0.0.1:30010', // 替换为你的API地址
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json'

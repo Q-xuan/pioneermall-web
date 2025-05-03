@@ -63,7 +63,7 @@ const msg = useMsgStore()
 const fetchProduct = async () => {
   try {
     // Replace with your actual API endpoint
-    let id = parseInt(route.params.id[0])
+    let id = parseInt(route.params.id)
     const data = await productStore.fetchProductById(id)
     product.value = data
   } catch (error) {
